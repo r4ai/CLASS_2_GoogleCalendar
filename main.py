@@ -78,7 +78,7 @@ def main():
             logger.debug(f"calendar_schedule_id: {e}")
             logger.info(f"{date}曜{time}限 の {title} をGoogleカレンダーに登録しました。")
         else:
-            logger.info(f"{date}曜{time}限 には授業が登録されていません。")
+            logger.debug(f"{date}曜{time}限 には授業が登録されていません。")
 
 
 def getSession():
