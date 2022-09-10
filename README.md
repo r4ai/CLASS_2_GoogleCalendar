@@ -33,13 +33,13 @@
 
 1. `.env`を作成する
 
-2. `CALENDAR_ID=`に続く形で、先ほどコピーしたカレンダーIDを記入する
+2. `CALENDAR_ID=`に続く形で、先ほどコピーしたカレンダーIDを記入する  
   例: `CALENDAR_ID=fugaefjieaj3i4ejw32@group.calendar.google.com`
 
-3. `LETUS_USERNAME=`に続く形で、LETUSのユーザー名を記入する
+3. `LETUS_USERNAME=`に続く形で、LETUSのユーザー名を記入する  
   例: `LETUS_USERNAME=0000000`
 
-4. `LETUS_PASSWORD=`に続く形で、LETUSのパスワードを記入する
+4. `LETUS_PASSWORD=`に続く形で、LETUSのパスワードを記入する  
   例: `LETUS_PASSWORD=my_paSsword_2022`
 
 ## data/calendar.htmlを生成する
