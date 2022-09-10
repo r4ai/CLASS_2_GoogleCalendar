@@ -81,7 +81,7 @@ def main():
             logger.debug(f"{date}曜{time}限 には授業が登録されていません。")
 
 
-def getSession():
+def getSession() -> requests.Session:
     session = requests.Session()
     login_html_res = session.get(LETUS_LOGIN_URL)
     login_html_bs = BeautifulSoup(login_html_res.text, "html.parser")
@@ -110,7 +110,7 @@ def getLetusCourseUrl(session: requests.Session, class_id: str) -> str:
     return class_url
 
 
-def getClassTime(time: int, class_date: datetime.date):
+def getClassTime(time: int, class_date: datetime.date) -> dict:
     time = str(time + 1)
     class_time_data = {
         "1": {
@@ -167,7 +167,7 @@ def getClassTime(time: int, class_date: datetime.date):
     return class_time_data[time]
 
 
-def createEvent(service, event_content: dict):
+def createEvent(service, event_content: dict) -> str:
     create_event = (
         service.events().insert(calendarId=CALENDAR_ID, body=event_content).execute()
     )
