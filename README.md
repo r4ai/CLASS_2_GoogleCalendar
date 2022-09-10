@@ -42,12 +42,16 @@
 4. `LETUS_PASSWORD=`に続く形で、LETUSのパスワードを記入する
   例: `LETUS_PASSWORD=my_paSsword_2022`
 
-### data/calendar.htmlを生成する
+## data/calendar.htmlを生成する
 
 1. CLASSにアクセスし、学生時間割表を表示する。
 
 2. 学生時間割表のHTMLファイルを、`data/calendar.html`に保存する。  
   (Edgeならば、適当なところを右クリックし、名前を付けて保存から保存できる)
+
+## 授業期間を設定する
+
+1. `main.py`を開き、`CLASS_START_DATE`の値を授業開始日に、`CLASS_END_DATE`の値を授業終了日にする。
 
 ## コマンドを実行する
 
