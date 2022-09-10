@@ -27,3 +27,9 @@ LETUS_PASSWORD="fugahogebarhoge"
 
 3. data/calendar.html
   CLASSの学生時間割表のHTMLファイル
+
+## コマンド
+```bash
+$ poetry shell
+$ python3 main.py
+```
