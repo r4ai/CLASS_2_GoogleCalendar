@@ -14,17 +14,15 @@ from log import initLog
 logger = initLog()
 load_dotenv()
 
-### CHANGE REQUIRED DATA ##############################################################
+### CHANGE REQUIRED DATA ######################################################
 INPUT_FILE = Path("data/calendar.html")
 CREDENTIALS_JSON_FILE = Path("env/credentials.json")
-CLASS_START_DATE = datetime.date(2022, 9, 12)
-CLASS_END_DATE = datetime.date(2023, 1, 28)
-#######################################################################################
+CLASS_START_DATE = datetime.date(2023, 4, 11)
+CLASS_END_DATE = datetime.date(2023, 8, 6)
+###############################################################################
 
 
 LETUS_LOGIN_URL = "https://letus.ed.tus.ac.jp/login/index.php"
-LETUS_USERNAME = os.getenv("LETUS_USERNAME")
-LETUS_PASSWORD = os.getenv("LETUS_PASSWORD")
 SCOPES = ["https://www.googleapis.com/auth/calendar"]
 CREDENTIALS_JSON = load_credentials_from_file(CREDENTIALS_JSON_FILE, SCOPES)[0]
 CALENDAR_ID = os.getenv("CALENDAR_ID")
@@ -38,7 +36,14 @@ def main():
     soup = BeautifulSoup(open(INPUT_FILE), "html.parser")
     raw_data = soup.select("table.classTable tbody tr td.colYobi div.jugyo-normal")
     date_list = ["月", "火", "水", "木", "金", "土"]
-    session = getSession()
+
+    if len(raw_data) < 1:
+        logger.error("ERROR: HTMLが不正です。")
+        return
+
+    if CLASS_START_DATE >= CLASS_END_DATE:
+        logger.error("ERROR: 授業開始日が授業終了日よりも後になっています。")
+        return
 
     for i, item in enumerate(raw_data):
         date_i = i % 6
@@ -47,7 +52,12 @@ def main():
         time = time_i + 1
         logger.debug(f"---{date}:{time}---")
         if len(item) > 1:
-            title = item.select("div")[0].text
+            title = (
+                item.select("div")[0]
+                .text.replace("\r", "")
+                .replace("\n", "")
+                .replace("\t", "")
+            )
             professor_name = item.select("div")[1].text
             location = item.select("div span")[0].text
             class_id = item.select("div")[3].text
@@ -57,12 +67,11 @@ def main():
             class_time = getClassTime(time_i, class_date)
             start = class_time["start"]
             end = class_time["end"]
-            class_url = getLetusCourseUrl(session, class_id)
 
             event_content = {
                 "summary": title,
                 "location": location,
-                "description": f"{class_url}\n{professor_name} / {class_id} / {tannisu}",
+                "description": f"{professor_name} / {class_id} / {tannisu}",
                 "start": start,
                 "end": end,
                 "recurrence": [
@@ -79,35 +88,6 @@ def main():
             logger.info(f"{date}曜{time}限 の {title} をGoogleカレンダーに登録しました。")
         else:
             logger.debug(f"{date}曜{time}限 には授業が登録されていません。")
-
-
-def getSession() -> requests.Session:
-    session = requests.Session()
-    login_html_res = session.get(LETUS_LOGIN_URL)
-    login_html_bs = BeautifulSoup(login_html_res.text, "html.parser")
-    login_token: str = str(
-        login_html_bs.find(attrs={"name": "logintoken"}).get("value")
-    )
-    payload = {
-        "username": LETUS_USERNAME,
-        "password": LETUS_PASSWORD,
-        "logintoken": login_token,
-    }
-    st = session.post(LETUS_LOGIN_URL, data=payload)
-    logger.info(f"login_status: {st.status_code}")
-    return session
-
-
-def getLetusCourseUrl(session: requests.Session, class_id: str) -> str:
-    OUT_FILE = "data/res.html"
-    search_result = session.get(
-        f"https://letus.ed.tus.ac.jp/course/search.php?q={class_id}"
-    )
-    bs = BeautifulSoup(search_result.text, "html.parser")
-    course_html = bs.select_one("div.course-search-result-search div.coursebox")
-    searched_course_id: str = course_html.get("data-courseid")
-    class_url = f"https://letus.ed.tus.ac.jp/course/view.php?id={searched_course_id}"
-    return class_url
 
 
 def getClassTime(time: int, class_date: datetime.date) -> dict:
