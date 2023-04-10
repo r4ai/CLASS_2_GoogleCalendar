@@ -27,9 +27,6 @@ SCOPES = ["https://www.googleapis.com/auth/calendar"]
 CREDENTIALS_JSON = load_credentials_from_file(CREDENTIALS_JSON_FILE, SCOPES)[0]
 CALENDAR_ID = os.getenv("CALENDAR_ID")
 
-logger.info(f"授業開始日: {CLASS_START_DATE}")
-logger.info(f"授業終了日: {CLASS_END_DATE}")
-
 
 def main():
     service = build("calendar", "v3", credentials=CREDENTIALS_JSON)
@@ -88,6 +85,7 @@ def main():
             logger.info(f"{date}曜{time}限 の {title} をGoogleカレンダーに登録しました。")
         else:
             logger.debug(f"{date}曜{time}限 には授業が登録されていません。")
+    logger.info("Googleカレンダーへの登録が完了しました。")
 
 
 def getClassTime(time: int, class_date: datetime.date) -> dict:
@@ -155,4 +153,6 @@ def createEvent(service, event_content: dict) -> str:
 
 
 if __name__ == "__main__":
+    logger.info(f"授業開始日: {CLASS_START_DATE}")
+    logger.info(f"授業終了日: {CLASS_END_DATE}")
     main()
