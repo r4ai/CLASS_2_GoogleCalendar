@@ -17,7 +17,7 @@ load_dotenv()
 ### CHANGE REQUIRED DATA ######################################################
 INPUT_FILE = Path("data/calendar.html")
 CREDENTIALS_JSON_FILE = Path("env/credentials.json")
-CLASS_START_DATE = datetime.date(2023, 4, 11)
+CLASS_START_DATE = datetime.date(2023, 4, 10)
 CLASS_END_DATE = datetime.date(2023, 8, 6)
 ###############################################################################
 
@@ -33,6 +33,11 @@ def main():
     soup = BeautifulSoup(open(INPUT_FILE), "html.parser")
     raw_data = soup.select("table.classTable tbody tr td.colYobi div.jugyo-normal")
     date_list = ["月", "火", "水", "木", "金", "土"]
+
+    if CLASS_START_DATE.weekday() != 0:
+        logger.error("ERROR: 授業開始日は月曜日にしてください。")
+        logger.error("ERROR: 例: 開始日が4/11(火)の場合、4/10(月)に変更してください。")
+        return
 
     if len(raw_data) < 1:
         logger.error("ERROR: HTMLが不正です。")
@@ -93,51 +98,51 @@ def getClassTime(time: int, class_date: datetime.date) -> dict:
     class_time_data = {
         "1": {
             "start": {
-                "dateTime": f"{class_date}T09:00:00+09:00",
+                "dateTime": f"{class_date}T08:50:00+09:00",
                 "timeZone": "Japan",
             },
             "end": {
-                "dateTime": f"{class_date}T10:30:00+09:00",
+                "dateTime": f"{class_date}T10:20:00+09:00",
                 "timeZone": "Japan",
             },
         },
         "2": {
             "start": {
-                "dateTime": f"{class_date}T10:40:00+09:00",
+                "dateTime": f"{class_date}T10:30:00+09:00",
                 "timeZone": "Japan",
             },
             "end": {
-                "dateTime": f"{class_date}T12:10:00+09:00",
+                "dateTime": f"{class_date}T12:00:00+09:00",
                 "timeZone": "Japan",
             },
         },
         "3": {
             "start": {
-                "dateTime": f"{class_date}T13:10:00+09:00",
+                "dateTime": f"{class_date}T13:00:00+09:00",
                 "timeZone": "Japan",
             },
             "end": {
-                "dateTime": f"{class_date}T14:40:00+09:00",
+                "dateTime": f"{class_date}T14:30:00+09:00",
                 "timeZone": "Japan",
             },
         },
         "4": {
             "start": {
-                "dateTime": f"{class_date}T14:50:00+09:00",
+                "dateTime": f"{class_date}T14:40:00+09:00",
                 "timeZone": "Japan",
             },
             "end": {
-                "dateTime": f"{class_date}T16:20:00+09:00",
+                "dateTime": f"{class_date}T16:10:00+09:00",
                 "timeZone": "Japan",
             },
         },
         "5": {
             "start": {
-                "dateTime": f"{class_date}T16:30:00+09:00",
+                "dateTime": f"{class_date}T16:20:00+09:00",
                 "timeZone": "Japan",
             },
             "end": {
-                "dateTime": f"{class_date}T18:00:00+09:00",
+                "dateTime": f"{class_date}T17:50:00+09:00",
                 "timeZone": "Japan",
             },
         },
