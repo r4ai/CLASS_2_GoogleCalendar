@@ -17,8 +17,8 @@ load_dotenv()
 ### CHANGE REQUIRED DATA ######################################################
 INPUT_FILE = Path("data/calendar.html")
 CREDENTIALS_JSON_FILE = Path("env/credentials.json")
-CLASS_START_DATE = datetime.date(2023, 4, 10)
-CLASS_END_DATE = datetime.date(2023, 8, 6)
+CLASS_START_DATE = datetime.date(2023, 9, 11) # 月曜日にすること
+CLASS_END_DATE = datetime.date(2024, 1, 28)    # 月曜日にすること
 ###############################################################################
 
 
@@ -160,4 +160,10 @@ def createEvent(service, event_content: dict) -> str:
 if __name__ == "__main__":
     logger.info(f"授業開始日: {CLASS_START_DATE}")
     logger.info(f"授業終了日: {CLASS_END_DATE}")
+    logger.info(f"GoogleカレンダーID: {CALENDAR_ID}")
+    shouldStart = input("以上の内容で実行します。よろしいですか？(Y/n) ")
+    if shouldStart != "Y" and shouldStart != "y":
+        logger.info("処理を中断しました。")
+        exit(1)
+    logger.info("Googleカレンダーへの登録を開始します。")
     main()
