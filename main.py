@@ -22,7 +22,6 @@ CLASS_END_DATE = datetime.date(2024, 1, 28)    # 月曜日にすること
 ###############################################################################
 
 
-LETUS_LOGIN_URL = "https://letus.ed.tus.ac.jp/login/index.php"
 SCOPES = ["https://www.googleapis.com/auth/calendar"]
 CREDENTIALS_JSON = load_credentials_from_file(CREDENTIALS_JSON_FILE, SCOPES)[0]
 CALENDAR_ID = os.getenv("CALENDAR_ID")
