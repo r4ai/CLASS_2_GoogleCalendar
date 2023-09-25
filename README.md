@@ -1,7 +1,10 @@
-# QuickStart
+# CLASS2GoogleCalendar
 
+CLASSの学生時間割表の内容をGoogleCalendarに登録する。
 
-## GoogleCalenderAPIの設定
+## QuickStart
+
+### GoogleCalenderAPIの設定
 
 1. [GoogleCloud](https://cloud.google.com/)からプロジェクトを作成。
 
@@ -20,7 +23,7 @@
 
 7. 生成したファイルの名前を`credentials.json`に変更し、envフォルダ下に配置する(`env/credentials.json`)。
 
-### GoogleCalenderの設定
+#### GoogleCalenderの設定
 
 1. 新しいカレンダーを作成する。
 
@@ -29,66 +32,68 @@
 
 3. 同じくカレンダーの設定にある、"カレンダーの統合"から、カレンダーID(例: `hogefej3i24@group.calendar.google.com`)をコピーしておく。
 
-## .envに必要情報を書き込む
+### .envに必要情報を書き込む
 
 1. `.env`を作成する
 
 2. `CALENDAR_ID=`に続く形で、先ほどコピーしたカレンダーIDを記入する  
   例: `CALENDAR_ID=fugaefjieaj3i4ejw32@group.calendar.google.com`
 
-## data/calendar.htmlを生成する
+### data/calendar.htmlを生成する
 
 1. CLASSにアクセスし、学生時間割表を表示する。
 
 2. 学生時間割表のHTMLファイルを、`data/calendar.html`に保存する。  
   (Edgeならば、適当なところを右クリックし、名前を付けて保存から保存できる)
 
-## 授業期間を設定する
+### 授業期間を設定する
 
 1. `main.py`を開き、`CLASS_START_DATE`の値を授業開始日に、`CLASS_END_DATE`の値を授業終了日にする。
 
-## コマンドを実行する
+### コマンドを実行する
 
 1. 以下がインストールされていることを前提とする。インストールしてない場合は、適宜インストールしてください。  
-  - python3.10^
-  - poetry
-
+   - python3.10^
+   - poetry
 2. `poetry shell`を実行する。（仮想環境を立ち上げて、依存ライブラリをインストールする。）  
   (poetryが無い場合は、適宜`pyproject.toml`のdependenciesに書いてあるライブラリを`pip install`してください)
+3. `poetry install`を実行する。（依存ライブラリをインストールする。）
+4. `poetry run python3 main.py`を実行する。（実行結果は`logs/20XX-XX-XX-XX-XX.log`に保存される。）
 
-3. `python3 main.py`を実行する。（実行結果は`logs/20XX-XX-XX-XX-XX.log`に保存される。）
+## 付録
 
-# 付録
-
-## 必要なファイル
+### 必要なファイル
 
 1. .env
-```txt
-CALENDAR_ID="fuga90324jif90324j@group.calendar.google.com"
-```
+
+  ```txt
+  CALENDAR_ID="fuga90324jif90324j@group.calendar.google.com"
+  ```
 
 2. env/credentials.json
-```json
-{
-  "type": "service_account",
-  "project_id": "hogehoge",
-  "private_key_id": "fugafuga",
-  "private_key": "-----BEGIN PRIVATE kEY-----\nfugafuageafjkdlafe....",
-  "client_email": "fuga@fuga.iam.gserviceaccount.com",
-  "client_id": "324897253429649723",
-  "auth_url": "https://accounts.google.com/o/oauth2/auth",
-  "token_url": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/fjifjilajsfielji..."
-}
-```
+
+  ```json
+  {
+    "type": "service_account",
+    "project_id": "hogehoge",
+    "private_key_id": "fugafuga",
+    "private_key": "-----BEGIN PRIVATE kEY-----\nfugafuageafjkdlafe....",
+    "client_email": "fuga@fuga.iam.gserviceaccount.com",
+    "client_id": "324897253429649723",
+    "auth_url": "https://accounts.google.com/o/oauth2/auth",
+    "token_url": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/fjifjilajsfielji..."
+  }
+  ```
 
 3. data/calendar.html  
   CLASSの学生時間割表のHTMLファイル
 
-## コマンド
+### コマンド
 
 ```bash
 $ poetry shell
-$ python3 main.py
+$ poetry install
+$ poetry run python3 main.py
 ```
