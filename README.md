@@ -37,3 +37,19 @@ $ deno run --allow-env --allow-read --allow-write https://raw.githubusercontent.
 から生成した `output.ics` を選択し、インポートする。
 
 CSV で出力した場合も同様にインポートできる。
+
+## Architecture
+
+```mermaid
+flowchart TD
+    html[HTML]
+    timetable(timetable（時間割を表す木構造）)
+    events(events（イベントの配列）)
+    csv[CSV]
+    ics[iCalendar]
+
+    html -->|getTimeTable| timetable
+    timetable -->|timetable2Events| events
+    events -->|events2csv| csv
+    timetable -->|timetable2iCal| ics
+```
