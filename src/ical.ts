@@ -52,7 +52,7 @@ export const timetable2iCal = (
         start,
         end,
         summary: lesson.subject,
-        description: `${lesson.id} / ${lesson.professor} / ${lesson.credits}`,
+        description: `授業コード: ${lesson.id}\n教員名: ${lesson.professor}\n単位数: ${lesson.credits}単位`,
         location: lesson.location,
         repeating: {
           freq: ICalEventRepeatingFreq.WEEKLY,

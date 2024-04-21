@@ -133,7 +133,7 @@ const timetable2events = (
       events.push({
         subject: classInfo.subject ?? "NULL",
         description:
-          `${classInfo.id} / ${classInfo.professor} / ${classInfo.credits}`,
+          `授業コード: ${classInfo.id}\n教員名: ${classInfo.professor}\n単位数: ${classInfo.credits}単位`,
         location: classInfo.location,
         start,
         end,
