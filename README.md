@@ -33,6 +33,7 @@ $ deno run --allow-env --allow-read --allow-write https://raw.githubusercontent.
 
 ### iCalender の GoogleCalendar へのインポート
 
-"設定" → "インポート/エキスポート" → "インポート" → "パソコンからファイルを選択" から生成した `output.ics` を選択し、インポートする。
+"設定" → "インポート/エキスポート" → "インポート" → "パソコンからファイルを選択"
+から生成した `output.ics` を選択し、インポートする。
 
 CSV で出力した場合も同様にインポートできる。

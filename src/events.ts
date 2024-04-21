@@ -1,9 +1,9 @@
 export type Event = {
-  subject: string
-  start: Date
-  end: Date
-  description?: string
-  location?: string
-}
+  subject: string;
+  start: Date;
+  end: Date;
+  description?: string;
+  location?: string;
+};
 
-export type Events = Event[]
+export type Events = Event[];
