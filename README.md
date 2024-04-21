@@ -49,7 +49,7 @@ flowchart TD
     ics[iCalendar]
 
     html -->|getTimeTable| timetable
-    timetable -->|timetable2Events| events
+    timetable -->|timetable2events| events
     events -->|events2csv| csv
     timetable -->|timetable2iCal| ics
 ```
