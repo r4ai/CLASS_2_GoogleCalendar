@@ -3,7 +3,7 @@ import {
   Document,
   Element,
 } from "https://deno.land/x/deno_dom@v0.1.45/deno-dom-wasm.ts"
-import { brightGreen, underline } from "jsr:@std/fmt@0.223.0/colors"
+import { brightGreen, gray, underline } from "jsr:@std/fmt@0.223.0/colors"
 import * as fs from "node:fs/promises"
 import {
   addDay,
@@ -17,6 +17,7 @@ import { events2csv } from "./csv.ts"
 import { Events } from "./events.ts"
 import { TimeTable, createEmptyTimeTable, getScheduleOf } from "./timetable.ts"
 import { date, dbg, entries, setTime } from "./utils.ts"
+import { timetable2iCal } from "./ical.ts"
 
 const parseHtml = async (filePath: string) => {
   const html = await fs.readFile(filePath, { encoding: "utf-8" })
@@ -153,7 +154,9 @@ const validateDate = (input: string) => {
 
 if (import.meta.main) {
   const filePath = await input({
-    message: "HTMLファイルのパスを入力してください",
+    message: `学生時間割表のHTMLファイルのパスを入力してください\n  ${gray(
+      "Edge ならば適当なところを右クリックし、\"名前を付けて保存\" から保存できる"
+    )}`,
     default: "input.html",
   }).catch(() => Deno.exit(1))
   const doc = await parseHtml(filePath)
@@ -184,9 +187,19 @@ if (import.meta.main) {
   )
   const events = timetable2events(timetable, startDate, endDate)
 
+  const calendarName = await input({
+    message: "カレンダーの名前を入力してください",
+    default: "時間割/学部1年-前期",
+  }).catch(() => Deno.exit(1))
+
   const format = await select({
     message: "出力形式を選択してください",
     choices: [
+      {
+        name: "iCalender",
+        value: "ics",
+        description: "iCalender形式で出力します",
+      },
       {
         name: "CSV",
         value: "csv",
@@ -202,6 +215,12 @@ if (import.meta.main) {
     case "csv": {
       const csv = events2csv(events)
       await fs.writeFile(outputFilePath, csv)
+      break
+    }
+    case "ics": {
+      const ics = timetable2iCal(timetable, calendarName, startDate, endDate)
+      await fs.writeFile(outputFilePath, ics)
+      break
     }
   }
   console.log()
